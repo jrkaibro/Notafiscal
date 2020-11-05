@@ -10,23 +10,21 @@ import com.fincatto.documentofiscal.utils.DFCadeiaCertificados;
 
 public class GerarCadeia {
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
+    public static void main(String[] args) {
         try {
-			FileUtils.writeByteArrayToFile(new File("C:\\Docker\\Linux\\srv\\apps\\cacerts\\homologacao.cacerts"), DFCadeiaCertificados.geraCadeiaCertificados(DFAmbiente.HOMOLOGACAO, "changeit"));
-			FileUtils.writeByteArrayToFile(new File("C:\\Docker\\Linux\\srv\\apps\\cacerts\\producao.cacerts"), DFCadeiaCertificados.geraCadeiaCertificados(DFAmbiente.PRODUCAO, "changeit"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			System.out.println(e.getMessage());
-		}
+            FileUtils.writeByteArrayToFile(new File("C:\\Docker\\Linux\\srv\\apps\\cacerts\\homologacao.cacerts"), DFCadeiaCertificados.geraCadeiaCertificados(DFAmbiente.HOMOLOGACAO, "changeit"));
+            FileUtils.writeByteArrayToFile(new File("C:\\Docker\\Linux\\srv\\apps\\cacerts\\producao.cacerts"), DFCadeiaCertificados.geraCadeiaCertificados(DFAmbiente.PRODUCAO, "changeit"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println(e.getMessage());
 
-	}
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+
+    }
 
 }

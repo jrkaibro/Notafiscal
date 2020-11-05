@@ -193,6 +193,8 @@ public class CTeTest {
         try {
             //response = api.transmitir("1", "3.00", xml);
             response = api.consultar("41201124476580000156570010000275021000375663");
+            //response = api.geraChaveCTe(xml);
+            //response = api.geraQrCode(xml);
         } catch (Exception e) {
             response = "Error: " + e.getMessage();
         }

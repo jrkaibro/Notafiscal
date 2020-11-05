@@ -2,6 +2,7 @@ package app.notafiscal;
 
 import com.fincatto.documentofiscal.DFAmbiente;
 import com.fincatto.documentofiscal.DFUnidadeFederativa;
+import com.fincatto.documentofiscal.cte200.classes.cte.CTe;
 import com.fincatto.documentofiscal.cte300.CTeConfig;
 import com.fincatto.documentofiscal.cte300.classes.CTTipoEmissao;
 import com.fincatto.documentofiscal.cte300.classes.consultastatusservico.CTeConsStatServRet;
@@ -15,7 +16,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fincatto.documentofiscal.cte300.classes.nota.consulta.CTeNotaConsultaRetorno;
+import com.fincatto.documentofiscal.cte300.utils.CTeGeraChave;
+import com.fincatto.documentofiscal.cte300.utils.CTeGeraQRCode;
 import com.fincatto.documentofiscal.cte300.webservices.WSFacade;
+import com.fincatto.documentofiscal.mdfe3.classes.nota.MDFe;
 import com.fincatto.documentofiscal.utils.DFPersister;
 
 import java.io.FileInputStream;
@@ -295,7 +299,7 @@ public class CTeAPI {
         }
         return logs;
     }
-    /*
+
     public String cancelarCteAssinada(String chave, String protocolo) {
         CTeRetornoCancelamento cteRetornoCancelamento;
         try {
@@ -306,5 +310,40 @@ public class CTeAPI {
         }
         return logs;
     }
-    */
+
+    public String geraQrCode(String xml) {
+        xml = xml.replaceAll("\r", "");
+        xml = xml.replaceAll("\t", "");
+        xml = xml.replaceAll("\\s{2,}", "");
+        xml = xml.replaceAll("\n", "");
+        xml = xml.replaceAll("&gt;", ">");
+        xml = xml.replaceAll("&lt;", "<");
+
+        CTeNota cte = null;
+        try {
+            cte = new DFPersister().read(CTeNota.class, xml);
+            logs = new CTeGeraQRCode(config).getQRCode(cte);
+        } catch (Exception e) {
+            logs = "Erro ao gerar QRcode CTe: " + e.getMessage();
+        }
+        return logs;
+    }
+    //Gerando chave!
+    public String geraChaveCTe(String xml) {
+        xml = xml.replaceAll("\r", "");
+        xml = xml.replaceAll("\t", "");
+        xml = xml.replaceAll("\\s{2,}", "");
+        xml = xml.replaceAll("\n", "");
+        xml = xml.replaceAll("&gt;", ">");
+        xml = xml.replaceAll("&lt;", "<");
+        CTeNota cte = null;
+        try {
+            cte = new DFPersister().read(CTeNota.class, xml);
+            CTeGeraChave chave = new CTeGeraChave(cte);
+            logs = chave.getChaveAcesso();
+        } catch (Exception e) {
+            logs = "Erro: " + e.getMessage();
+        }
+        return logs;
+    }
 }

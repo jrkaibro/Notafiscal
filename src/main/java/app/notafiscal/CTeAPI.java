@@ -1,34 +1,33 @@
 package app.notafiscal;
 
 import com.fincatto.documentofiscal.DFAmbiente;
+import com.fincatto.documentofiscal.DFModelo;
 import com.fincatto.documentofiscal.DFUnidadeFederativa;
-import com.fincatto.documentofiscal.cte200.classes.cte.CTe;
 import com.fincatto.documentofiscal.cte300.CTeConfig;
 import com.fincatto.documentofiscal.cte300.classes.CTTipoEmissao;
 import com.fincatto.documentofiscal.cte300.classes.consultastatusservico.CTeConsStatServRet;
 import com.fincatto.documentofiscal.cte300.classes.enviolote.CTeEnvioLote;
 import com.fincatto.documentofiscal.cte300.classes.enviolote.CTeEnvioLoteRetornoDados;
 import com.fincatto.documentofiscal.cte300.classes.evento.cancelamento.CTeRetornoCancelamento;
+import com.fincatto.documentofiscal.cte300.classes.evento.cancelamento.CTeDetalhamentoEventoCancelamento;
 import com.fincatto.documentofiscal.cte300.classes.nota.CTeNota;
-
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fincatto.documentofiscal.cte300.classes.nota.consulta.CTeNotaConsultaRetorno;
 import com.fincatto.documentofiscal.cte300.utils.CTeGeraChave;
 import com.fincatto.documentofiscal.cte300.utils.CTeGeraQRCode;
 import com.fincatto.documentofiscal.cte300.webservices.WSFacade;
-import com.fincatto.documentofiscal.mdfe3.classes.nota.MDFe;
 import com.fincatto.documentofiscal.utils.DFPersister;
-
+import com.fincatto.documentofiscal.cte300.classes.evento.cancelamento.CTeDetalhamentoEventoCancelamento;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.security.cert.CertificateException;
+import java.nio.charset.StandardCharsets;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
+import java.util.ArrayList;
+import java.util.List;
+import com.fincatto.documentofiscal.cte300.webservices.consulta.CteConsultaStub;
 
 public class CTeAPI {
     private DFUnidadeFederativa sEstado;
@@ -262,17 +261,27 @@ public class CTeAPI {
             //Tenta realizar a transmissão do objeto de lote a receita
             CTeEnvioLoteRetornoDados cteEnvioLoteRetornoDados = new WSFacade(config).envioRecepcaoLote(LoteEnvio);
             //Grava em 'logs' os dados a serem informados ao usuário (Lote Assinado e Retorno da receita)
-            logs = cteEnvioLoteRetornoDados.getLoteAssinado().toString() + "," + cteEnvioLoteRetornoDados.getRetorno().toString();
+            logs = cteEnvioLoteRetornoDados.getLoteAssinado().toString() + ";" + cteEnvioLoteRetornoDados.getRetorno().toString();
         } catch (Exception e) {
             logs = "error na transmissão do lote de CTe: " + e.getMessage();
         }
         return logs;
     }
 
-    public String consultaStatusServico() {
+    public String consultaStatusServico(String UF) {
         try {
-            CTeConsStatServRet cteStatusServiceRetorno = new WSFacade(config).consultaStatus(DFUnidadeFederativa.DF);
-            logs = cteStatusServiceRetorno.getMotivo() + " " + cteStatusServiceRetorno.getObservacao();
+            CTeConsStatServRet cteStatusServiceRetorno = new WSFacade(config).consultaStatus(BuscaUnidadeFederativa(UF));
+            logs = cteStatusServiceRetorno.getMotivo() + " " + cteStatusServiceRetorno.getCodigoStatus();
+        } catch (Exception e) {
+            logs = e.getMessage();
+        }
+        return logs;
+    }
+
+    public String consultaStatusServicoCod(String UF) {
+        try {
+            CTeConsStatServRet cteStatusServiceRetorno = new WSFacade(config).consultaStatus(BuscaUnidadeFederativa(UF));
+            logs = cteStatusServiceRetorno.getCodigoStatus();
         } catch (Exception e) {
             logs = e.getMessage();
         }
@@ -281,7 +290,6 @@ public class CTeAPI {
 
     public String consultar(String chave) {
         try {
-            //TODO alterar o retorno;
             CTeNotaConsultaRetorno cteEnvioLoteRetornoDados = new WSFacade(config).consultaNota(chave);
             logs = cteEnvioLoteRetornoDados.getMotivo();
         } catch (Exception e) {
@@ -328,7 +336,7 @@ public class CTeAPI {
         }
         return logs;
     }
-    //Gerando chave!
+
     public String geraChaveCTe(String xml) {
         xml = xml.replaceAll("\r", "");
         xml = xml.replaceAll("\t", "");

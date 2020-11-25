@@ -40,7 +40,7 @@
           <artifactId>notafiscal_core</artifactId>
           <version>${latest.release}</version>
           <scope>system</scope>
-          <systemPath>C:/notafiscal_core.jar</systemPath>
+          <systemPath>${project.basedir}/package/notafiscal_core.jar</systemPath>
       </dependency>
 
       <!-- Simple Xml Framework -->

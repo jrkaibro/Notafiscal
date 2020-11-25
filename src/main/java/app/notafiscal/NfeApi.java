@@ -139,7 +139,17 @@ public class NFeApi {
         }
     };
 
-    public void NfeConfigurar(String CertificadoSenha, String CadeiaCertificadoSenha, String CaminhoCertificado, String CaminhoCadeiaCertificado, String Estado, String Ambiente, String CodigoSegurancaContribuinte, String IdentificadorSegurancaContribuinte, String Versao) {
+    public void NfeConfigurar(
+            String CertificadoSenha,
+            String CadeiaCertificadoSenha,
+            String CaminhoCertificado,
+            String CaminhoCadeiaCertificado,
+            String Estado,
+            String Ambiente,
+            String CodigoSegurancaContribuinte,
+            String IdentificadorSegurancaContribuinte,
+            String Versao
+    ) {
 
         sconfiguracao = new NFeConfiguracao();
 
@@ -755,7 +765,6 @@ public class NFeApi {
     }
 
     public String NFDateTime(String local) {
-
 
         String DATE_FORMAT = "yyyy-MM-dd HH:mm:s";
 

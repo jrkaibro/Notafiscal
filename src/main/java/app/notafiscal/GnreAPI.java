@@ -1,23 +1,10 @@
 package app.notafiscal;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
 import com.fincatto.documentofiscal.gnre200.webservice.loterecepcao.LoteRecepcaoApplication;
 import com.fincatto.documentofiscal.gnre200.webservice.loterecepcao.LoteRecepcaoModel;
 import com.fincatto.documentofiscal.gnre200.webservice.resultadolote.ResultadoLoteApplication;
-import com.fincatto.documentofiscal.gnre200.webservice.resultadolote.ResultadoLoteModel;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
 import com.fincatto.documentofiscal.DFUnidadeFederativa;
-import com.fincatto.documentofiscal.gnre200.webservice.ClientFactory;
 import com.fincatto.documentofiscal.gnre200.webservice.configuf.ConfigUFApplication;
-
-import java.io.File;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public class GnreAPI {
 

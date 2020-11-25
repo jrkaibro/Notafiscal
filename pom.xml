@@ -23,11 +23,24 @@
   </properties>
 
   <dependencies>
+      <dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <version>4.5.10</version>
+      </dependency>
 
       <dependency>
           <groupId>com.github.wmixvideo</groupId>
           <artifactId>nfe</artifactId>
           <version>${latest.release}</version>
+      </dependency>
+
+      <dependency>
+          <groupId>com.fincatto</groupId>
+          <artifactId>notafiscal_core</artifactId>
+          <version>${latest.release}</version>
+          <scope>system</scope>
+          <systemPath>C:/notafiscal_core.jar</systemPath>
       </dependency>
 
       <!-- Simple Xml Framework -->
@@ -89,6 +102,12 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+      <dependency>
+          <groupId>org.jetbrains</groupId>
+          <artifactId>annotations</artifactId>
+          <version>RELEASE</version>
+          <scope>compile</scope>
+      </dependency>
 
   </dependencies>
   

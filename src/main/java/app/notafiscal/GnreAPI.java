@@ -1,16 +1,31 @@
 package app.notafiscal;
 
-import com.fincatto.documentofiscal.DFUnidadeFederativa;
-import com.fincatto.documentofiscal.gnre200.webservice.configuf.ConfigUFApplication;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import com.fincatto.documentofiscal.gnre200.webservice.loterecepcao.LoteRecepcaoApplication;
 import com.fincatto.documentofiscal.gnre200.webservice.loterecepcao.LoteRecepcaoModel;
+import com.fincatto.documentofiscal.gnre200.webservice.resultadolote.ResultadoLoteApplication;
+import com.fincatto.documentofiscal.gnre200.webservice.resultadolote.ResultadoLoteModel;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Element;
+import com.fincatto.documentofiscal.DFUnidadeFederativa;
+import com.fincatto.documentofiscal.gnre200.webservice.ClientFactory;
+import com.fincatto.documentofiscal.gnre200.webservice.configuf.ConfigUFApplication;
+
+import java.io.File;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class GnreAPI {
 
     String logs = "";
 
-    public String configurar(String CertificadoSenha, String CadeiaCertificadoSenha, String CaminhoCertificado, String CaminhoCadeiaCertificado, String Estado, String Receita) {
-        GnreConfiguracao.configGnre(CaminhoCertificado, CertificadoSenha, CaminhoCadeiaCertificado, CadeiaCertificadoSenha);
+    public String configurar(String CertificadoSenha, String CadeiaCertificadoSenha, String CaminhoCertificado, String CaminhoCadeiaCertificado, String Estado, String Receita) throws Exception {
+        GnreConfiguracao gConfig = new GnreConfiguracao();
+        gConfig.configGnre(CaminhoCertificado, CertificadoSenha, CaminhoCadeiaCertificado, CadeiaCertificadoSenha);
         ConfigUFApplication cUf = new ConfigUFApplication();
         logs = cUf.configUf(Estado, Receita, "2.00");
         return logs;
@@ -105,12 +120,11 @@ public class GnreAPI {
         return unidadefederativa;
     }
 
-    public String transmitit(String setUfFavorecida, String setCodigoReceita, String setEmitenteCnpj, String setTipoDocumentoOrigem, String setDocumentoOrigem, String setValorPrincipal, String setDataVencimento, String setEmitenteRazaoSocial, String setEmitenteEndereco, String setEmitenteCodigoMunicipio, String setEmitenteUf, String setEmitenteCep, String setDataPagamento, String setEmitenteTelefone, String setConvenio, String setPeriodo, String setMes, String setAno, String setTipoValor, String versao) {
-        if ((versao == null) || (versao.isEmpty())) {
-            versao = "2.00";
-        }
+    public String transmitir(String setUfFavorecida, String setInscricaoEstadual, String setCodigoReceita, String setEmitenteCnpj, String setTipoDocumentoOrigem, String setDocumentoOrigem, String setValorPrincipal, String setDataVencimento, String setEmitenteRazaoSocial, String setEmitenteEndereco, String setEmitenteCodigoMunicipio, String setEmitenteUf, String setEmitenteCep, String setDataPagamento, String setEmitenteTelefone, String setConvenio, String setPeriodo, String setMes, String setAno, String setTipoValor, String setValorTotal, String setNumParcela, String setIncricaoEstadualContribuinte, String setCnpjContribuinte, String setCpfContribuinte, String setCodigoDetalhamentoReceita, String setCodigoProduto, String setDestinatarioRazaoSocial, String setDestinatarioCodMunicipio) {
+        String versao = "2.00";
         LoteRecepcaoModel model = new LoteRecepcaoModel();
         model.setUfFavorecida(setUfFavorecida);
+        model.setInscricaoEstadual(setInscricaoEstadual);
         model.setCodigoReceita(setCodigoReceita);
         model.setEmitenteCnpj(setEmitenteCnpj);
         model.setTipoDocumentoOrigem(setTipoDocumentoOrigem);
@@ -128,6 +142,15 @@ public class GnreAPI {
         model.setConvenio(setConvenio);
         model.setPeriodo(setPeriodo.isEmpty() ? "0" : setPeriodo);
         model.setTipoValor(setTipoValor.isEmpty() ? "11" : setTipoValor);
+        model.setValorTotal(setValorTotal);
+        model.setNumParcela(setNumParcela);
+        model.setCnpjDestinatario(setCnpjContribuinte);
+        model.setInscricaoEstadualDestinatario(setIncricaoEstadualContribuinte);
+        model.setCpfDestinatario(setCpfContribuinte);
+        model.setCodigoDetalhamentoReceita(setCodigoDetalhamentoReceita);
+        model.setCodigoProduto(setCodigoProduto);
+        model.setDestinatarioRazaoSocial(setDestinatarioRazaoSocial);
+        model.setDestinatarioCodigoMunicipio(setDestinatarioCodMunicipio);
         model.setMes(setMes);
         model.setAno(setAno);
         try {
@@ -140,8 +163,19 @@ public class GnreAPI {
         return logs;
     }
 
-    public String consulta(String numeroRecibo) {
+    public String consultar(String numeroRecibo) {
+        try {
+            logs = ResultadoLoteApplication.consultaLote(numeroRecibo);
+        } catch (Exception e) {
+            logs = e.getMessage();
+            e.getStackTrace();
+        }
+
         return logs;
     }
-
+    /*
+    public String gerarPdfGuia(String xml) {
+        return logs;
+    }
+    */
 }

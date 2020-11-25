@@ -1,4 +1,5 @@
 import app.notafiscal.CTeAPI;
+import com.fincatto.documentofiscal.cte300.classes.evento.cancelamento.CTeDetalhamentoEventoCancelamento;
 
 public class CTeTest {
 
@@ -16,13 +17,13 @@ public class CTeTest {
 
         String xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" +
                 "<CTe xmlns=\"http://www.portalfiscal.inf.br/cte\">\n" +
-                "    <infCte Id=\"CTe41201124476580000156570010000275041000375668\" versao=\"3.00\">\n" +
-                "        <ide>\n" +
-                "            <cUF>41</cUF>\n" +
-                "            <cCT>00037566</cCT>\n" +
-                "            <CFOP>6932</CFOP>\n" +
-                "            <natOp>PRESTACAO DE SERVICO DE TRANSP INIC EM UF DIVERSA</natOp>\n" +
-                "            <mod>57</mod>\n" +
+                "<infCte Id=\"CTe41201124476580000156570010000275041000375668\" versao=\"3.00\">\n" +
+                "<ide>\n" +
+                "<cUF>41</cUF>\n" +
+                "<cCT>00037566</cCT>\n" +
+                "<CFOP>6932</CFOP>\n" +
+                "<natOp>PRESTACAO DE SERVICO DE TRANSP INIC EM UF DIVERSA</natOp>\n" +
+                "<mod>57</mod>\n" +
                 "            <serie>1</serie>\n" +
                 "            <nCT>27504</nCT>\n" +
                 "            <dhEmi>2020-11-03T19:38:24-03:00</dhEmi>\n" +
@@ -191,16 +192,22 @@ public class CTeTest {
         String response;
 
         try {
+            //ok
             //response = api.transmitir("1", "3.00", xml);
-            response = api.consultar("41201124476580000156570010000275021000375663");
+            //ok
             //response = api.geraChaveCTe(xml);
+            //ok
             //response = api.geraQrCode(xml);
+            //ok
+            //response = api.consultaStatusServicoCod("PR");
+            //error
+            response = api.consultar("41201124476580000156570010000275021000375663");
+            //error
+            //response = api.cancelarCteAssinada("41201124476580000156570010000275021000375663", "154198419105185984");
         } catch (Exception e) {
             response = "Error: " + e.getMessage();
         }
-
         System.out.println(response);
-
     }
 }
 

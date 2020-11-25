@@ -77,7 +77,6 @@ public class NFeApi {
 
         @Override
         public String getCertificadoSenha() {
-            // TODO Auto-generated method stub
             return sCertificadoSenha;
         }
 
@@ -97,7 +96,6 @@ public class NFeApi {
 
         @Override
         public String getCadeiaCertificadosSenha() {
-            // TODO Auto-generated method stub
             return sCadeiaCertificadoSenha;
         }
 
@@ -117,7 +115,6 @@ public class NFeApi {
 
         @Override
         public DFUnidadeFederativa getCUF() {
-            // TODO Auto-generated method stub
             return sEstado;
         }
 
@@ -202,25 +199,18 @@ public class NFeApi {
             retorno = nfretornoconsultacadastro.toString();
 
         } catch (KeyManagementException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (UnrecoverableKeyException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (KeyStoreException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (CertificateException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         }
 
@@ -265,25 +255,18 @@ public class NFeApi {
             retc = new WSFacade(config).consultaLote(idlote.trim(), dfmodelo);
             retorno = retc.toString();
         } catch (KeyManagementException e) {
-            // TODO Auto-generated catch block
             System.out.println(e.getMessage());
         } catch (UnrecoverableKeyException e) {
-            // TODO Auto-generated catch block
             System.out.println(e.getMessage());
         } catch (KeyStoreException e) {
-            // TODO Auto-generated catch block
             System.out.println(e.getMessage());
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
             System.out.println(e.getMessage());
         } catch (CertificateException e) {
-            // TODO Auto-generated catch block
             System.out.println(e.getMessage());
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             System.out.println(e.getMessage());
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             System.out.println(e.getMessage());
         }
 
@@ -384,7 +367,6 @@ public class NFeApi {
         try {
             value = new String(XML.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e2) {
-            // TODO Auto-generated catch block
             xmlretorno = "Error: " + e2.getMessage();
         }
         NFNota notaRecuperadaAssinada = null;
@@ -519,8 +501,6 @@ public class NFeApi {
         } catch (Exception e) {
             info = e.getLocalizedMessage();
         }
-
-
         return info;
     }
 
@@ -533,22 +513,9 @@ public class NFeApi {
         String retorno = null;
 
         try {
-
             NFStatusServicoConsultaRetorno nfstatusservicoconsultatretorno = new WSFacade(config).consultaStatus(dfuf, dfmodelo);
-
             retorno = nfstatusservicoconsultatretorno.getStatus() + "," + nfstatusservicoconsultatretorno.getMotivo() + "," + nfstatusservicoconsultatretorno.getObservacao();
-
-        } catch (KeyManagementException e) {
-            System.out.println(e.getMessage());
-        } catch (UnrecoverableKeyException e) {
-            System.out.println(e.getMessage());
-        } catch (KeyStoreException e) {
-            System.out.println(e.getMessage());
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println(e.getMessage());
-        } catch (CertificateException e) {
-            System.out.println(e.getMessage());
-        } catch (IOException e) {
+        } catch (KeyManagementException | UnrecoverableKeyException | KeyStoreException | NoSuchAlgorithmException | CertificateException | IOException e) {
             System.out.println(e.getMessage());
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -570,25 +537,18 @@ public class NFeApi {
         try {
             nfenviaeventoretorno = new WSFacade(config).cancelaNota(chaveDeAcessoDaNota, protocoloDaNota, "CANCELAMENTO SOLCITADO.");
         } catch (KeyManagementException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (UnrecoverableKeyException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (KeyStoreException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (CertificateException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -642,25 +602,18 @@ public class NFeApi {
             nfretornoeventoinutilizacao = new WSFacade(config).inutilizaNotaAssinada(xmlassinado, dfmodelo);
             retorno = nfretornoeventoinutilizacao.toString();
         } catch (KeyManagementException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (UnrecoverableKeyException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (KeyStoreException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (NoSuchAlgorithmException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (CertificateException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         }
 
@@ -793,7 +746,6 @@ public class NFeApi {
             retorno = "";
 
         } catch (Exception e) {
-            // TODO Auto-generated catch block
             retorno = e.getMessage();
         }
 

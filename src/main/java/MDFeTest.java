@@ -8,12 +8,12 @@ public class MDFeTest {
 
         NFeApi api = new NFeApi();
 
-        api.NfeConfigurar("@cafe@",
+        api.NfeConfigurar("123456",
                             "changeit",
-                            "D:\\Tmp\\xml\\1.pfx",
-                            "D:\\Docker\\Linux\\srv\\apps\\cacerts\\homologacao.cacerts",
+                            "D:\\Projects\\certificados\\entregarapida.pfx",
+                            "D:\\Projects\\certificados\\producao.cacerts",
                             "PR",
-                            "2",
+                            "1",
                             "",
                             "", "4.00");
 
@@ -189,7 +189,8 @@ public class MDFeTest {
         String retorno ;
 
         try {
-            retorno = api.NFeEmitir(xml, "1", DFModelo.NFE.toString(), "1");
+            //retorno = api.NFeEmitir(xml, "1", DFModelo.NFE.toString(), "1");
+            retorno = api.NfeConsultaNota("41201124476580000156570010000275021000375663");
         } catch (Exception e) {
             retorno = "Error: " + e.getMessage();
 

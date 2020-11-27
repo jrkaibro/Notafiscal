@@ -11,8 +11,8 @@ public class GerarCadeia {
 
     public static void main(String[] args) {
         try {
-            FileUtils.writeByteArrayToFile(new File("D:\\Projects\\certificados\\cadeiaCertificadosGerados\\homologacao.cacerts"), DFCadeiaCertificados.geraCadeiaCertificados(DFAmbiente.HOMOLOGACAO, "changeit"));
-            FileUtils.writeByteArrayToFile(new File("D:\\Projects\\certificados\\cadeiaCertificadosGerados\\producao.cacerts"), DFCadeiaCertificados.geraCadeiaCertificados(DFAmbiente.PRODUCAO, "changeit"));
+            FileUtils.writeByteArrayToFile(new File("D:\\Certificado\\homologacao.cacerts"), DFCadeiaCertificados.geraCadeiaCertificados(DFAmbiente.HOMOLOGACAO, "changeit"));
+            FileUtils.writeByteArrayToFile(new File("D:\\Certificado\\producao.cacerts"), DFCadeiaCertificados.geraCadeiaCertificados(DFAmbiente.PRODUCAO, "changeit"));
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println(e.getMessage());

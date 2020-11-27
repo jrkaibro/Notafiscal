@@ -139,17 +139,7 @@ public class NFeApi {
         }
     };
 
-    public void NfeConfigurar(
-            String CertificadoSenha,
-            String CadeiaCertificadoSenha,
-            String CaminhoCertificado,
-            String CaminhoCadeiaCertificado,
-            String Estado,
-            String Ambiente,
-            String CodigoSegurancaContribuinte,
-            String IdentificadorSegurancaContribuinte,
-            String Versao
-    ) {
+    public void NfeConfigurar(String CertificadoSenha, String CadeiaCertificadoSenha, String CaminhoCertificado, String CaminhoCadeiaCertificado, String Estado, String Ambiente, String CodigoSegurancaContribuinte, String IdentificadorSegurancaContribuinte, String Versao) {
 
         sconfiguracao = new NFeConfiguracao();
 

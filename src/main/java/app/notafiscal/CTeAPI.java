@@ -7,6 +7,7 @@ import com.fincatto.documentofiscal.cte300.classes.CTTipoEmissao;
 import com.fincatto.documentofiscal.cte300.classes.consultastatusservico.CTeConsStatServRet;
 import com.fincatto.documentofiscal.cte300.classes.enviolote.CTeEnvioLote;
 import com.fincatto.documentofiscal.cte300.classes.enviolote.CTeEnvioLoteRetornoDados;
+import com.fincatto.documentofiscal.cte300.classes.enviolote.consulta.CTeConsultaRecLoteRet;
 import com.fincatto.documentofiscal.cte300.classes.evento.cancelamento.CTeRetornoCancelamento;
 import com.fincatto.documentofiscal.cte300.classes.nota.CTeNota;
 import com.fincatto.documentofiscal.cte300.classes.nota.consulta.CTeNotaConsultaRetorno;
@@ -34,6 +35,7 @@ public class CTeAPI {
     private String sCaminhoCertificado;
     private String sCertificadoSenha;
     private String logs;
+
     private final CTeConfig config = new CTeConfig() {
         private KeyStore keyStoreCertificado = null;
         private KeyStore keyStoreCadeia = null;
@@ -258,10 +260,20 @@ public class CTeAPI {
             //Tenta realizar a transmissão do objeto de lote a receita
             CTeEnvioLoteRetornoDados cteEnvioLoteRetornoDados = new WSFacade(config).envioRecepcaoLote(LoteEnvio);
             //Grava em 'logs' os dados a serem informados ao usuário (Lote Assinado e Retorno da receita)
-            logs = cteEnvioLoteRetornoDados.getLoteAssinado().toString() + ";" + cteEnvioLoteRetornoDados.getRetorno().toString();
+            logs = cteEnvioLoteRetornoDados.getLoteAssinado().toString() + ";" + cteEnvioLoteRetornoDados.getRetorno();
+            logs = logs.replaceAll("amp;", "");
         } catch (Exception e) {
             logs = "error na transmissão do lote de CTe: " + e.getMessage();
         }
+        return logs;
+    }
+
+    public String consultaProcessamento(String numRecibo) throws Exception {
+        CTeConsultaRecLoteRet retorno = new WSFacade(config).consultaEnvioRecepcaoLote(numRecibo);
+        //logs = retorno.getStatus() + "," + retorno.getProtocolo() + "," + retorno.getNumeroRecebimento() + "," + retorno.getAmbiente() + "," + retorno.getVersaoAplicacao() + "," + retorno.getVersaoAplicacao();
+        logs = "" + retorno.toString();
+        logs = logs.replaceAll("\\[", "");
+        logs = logs.replaceAll("\\]", "");
         return logs;
     }
 
@@ -303,6 +315,101 @@ public class CTeAPI {
             logs = e.getMessage();
         }
         return logs;
+    }
+
+    public String geraLinkQrCode(String chave, String ambiente, String UF) {
+        String link;
+        boolean generated = true;
+        switch (UF) {
+            case "MT":
+                if (ambiente == "1") {
+                    link = "<![CDATA[https://www.sefaz.mt.gov.br/cte/qrcode?chCTe=" + chave + "&tpAmb=" + ambiente + "]]>";
+                    generated = true;
+                } else {
+                    if (ambiente == "2") {
+                        link = "<![CDATA[https://homologacao.sefaz.mt.gov.br/cte/qrcode?chCTe=" + chave + "&tpAmb=" + ambiente + "]]>";
+                        generated = true;
+                    } else {
+                        link = "ERRO AO GERAR LINK, AMBIENTE INVÁLIDO - amb: " + ambiente;
+                        generated = false;
+                    }
+                }
+                break;
+            case "MS":
+                if (ambiente == "1" || ambiente == "2") {
+                    link = "<![CDATA[http://www.dfe.ms.gov.br/cte/qrcode?chCTe=" + chave + "&tpAmb=" + ambiente + "]]>";
+                    generated = true;
+                } else {
+                    link = "ERRO AO GERAR LINK, AMBIENTE INVÁLIDO - amb: " + ambiente;
+                    generated = false;
+                }
+                break;
+            case "MG":
+                if (ambiente == "1" || ambiente == "2") {
+                    link = "<![CDATA[https://cte.fazenda.mg.gov.br/portalcte/sistema/qrcode.xhtml?chCTe=" + chave + "&tpAmb=" + ambiente + "]]>";
+                    generated = true;
+                } else {
+                    link = "ERRO AO GERAR LINK, AMBIENTE INVÁLIDO - amb: " + ambiente;
+                    generated = false;
+                }
+                break;
+            case "PR":
+                if (ambiente == "1" || ambiente == "2") {
+                    link = "<![CDATA[http://www.fazenda.pr.gov.br/cte/qrcode?chCTe=" + chave + "&tpAmb=" + ambiente + "]]>";
+                    generated = true;
+                } else {
+                    link = "ERRO AO GERAR LINK, AMBIENTE INVÁLIDO - amb: " + ambiente;
+                    generated = false;
+                }
+                break;
+            //Serviço SVSP - Sefaz são paulo
+            case "SP":
+            case "AP":
+            case "PE":
+            case "RR":
+                if (ambiente == "1") {
+                    link = "<![CDATA[https://nfe.fazenda.sp.gov.br/CTeConsulta/qrCode?chCTe=" + chave + "&tpAmb=" + ambiente + "]]>";
+                } else {
+                    if (ambiente == "2") {
+                        link = "<![CDATA[https://homologacao.nfe.fazenda.sp.gov.br/CTeConsulta/qrCode?chCTe=" + chave + "&tpAmb=" + ambiente + "]]>";
+                    } else {
+                        link = "ERRO AO GERAR LINK, AMBIENTE INVÁLIDO - amb: " + ambiente;
+                    }
+                }
+                break;
+            //Servico RS/SVRS - Sefaz Rio Grande do Sul
+            case "RS":
+            case "AC":
+            case "AL":
+            case "AM":
+            case "BA":
+            case "CE":
+            case "DF":
+            case "ES":
+            case "GO":
+            case "MA":
+            case "PA":
+            case "PB":
+            case "PI":
+            case "RJ":
+            case "RN":
+            case "RO":
+            case "SC":
+            case "SE":
+            case "TO":
+                if (ambiente == "1" || ambiente == "2") {
+                    link = "<![CDATA[http://www.fazenda.pr.gov.br/cte/qrcode?chCTe=" + chave + "&tpAmb=" + ambiente + "]]>";
+                    generated = true;
+                } else {
+                    link = "ERRO AO GERAR LINK, AMBIENTE INVÁLIDO - amb: " + ambiente;
+                    generated = false;
+                }
+                break;
+            default:
+                link = "ERRO AO GERAR LINK DE CONSULTA CTe, UF " + UF + " NÃO ENCONTRADA!";
+                break;
+        }
+        return link;
     }
 
     public String cancelarCteAssinada(String chave, String protocolo) {
@@ -351,4 +458,5 @@ public class CTeAPI {
         }
         return logs;
     }
+
 }
